@@ -1,0 +1,53 @@
+.formTodo {
+    padding: 12px 20px;
+    margin: 8px 20px;
+    border-radius: 20em;
+    border-width: 0;
+    outline: 0;
+}
+
+.search-row{
+    display: flex;
+    flex-direction: row;  
+    justify-content: center;
+    align-items: center;
+}
+
+.search-button{
+    width: 5em;
+    height: 3.1em;
+    border-radius: 15em;
+    border-width: 0;
+    margin-right: 10px;
+    outline: 0;
+}
+
+.add-button{
+    width: 5em;
+    height: 3.1em;
+    border-radius: 15em;
+    border-width: 0;
+    margin-right: 10px;
+    outline: 0;
+}
+
+.search-button:hover {
+    background-color:  #f37329;
+  }
+  
+  .add-button:hover {
+    background-color:  #f37329;
+  }
+  .formTodo:hover {
+    background-color: #e7e7e6;
+  }
+
+  .add-images{
+      width: 60%;
+      height:60%;
+  }
+
+  .search-images{
+    width: 60%;
+    height:60%;
+  }
