@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './options.css'
 import './public/images/options.svg'
 import './public/images/add.svg'
+import DialogAdd from '../dialog/dialogAdd'
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
-const Options = ({addTask}) => {
+const Options = ({ addTask, changeListTask }) => {
 
     const [addOpen, setAddOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
@@ -18,9 +19,19 @@ const Options = ({addTask}) => {
     const [serchValue, setSerchValue] = useState("");
     const [dataValue, setDataValue] = useState("");
 
+    function gerationId() {
+        var size = 20;
+        var randomized = Math.ceil(Math.random() * Math.pow(10, size));//Cria um número aleatório do tamanho definido em size.
+        var digito = Math.ceil(Math.log(randomized));//Cria o dígito verificador inicial
+        while (digito > 10) {//Pega o digito inicial e vai refinando até ele ficar menor que dez
+            digito = Math.ceil(Math.log(digito));
+        }
+        var id = randomized + '-' + digito;//Cria a ID
+        return id;
+    }
 
     var data = {
-        _id: "ObjectID()",
+        _id: gerationId(),
         description: taskDescription,
         duedate: dataValue,
         done: false,
@@ -33,6 +44,7 @@ const Options = ({addTask}) => {
 
     const onChangetaskDescription = (value) => {
         setTaskDescription(value);
+
     }
     const onChangeSearch = (value) => {
         setSerchValue(value);
@@ -58,7 +70,6 @@ const Options = ({addTask}) => {
 
         <div className='search-row'>
             <button className='search-button' type='submit' onClick={searchClickOpen}>
-
                 <img className="search-images" alt="search" src='../images/search.svg'></img>
             </button>
 
@@ -66,50 +77,30 @@ const Options = ({addTask}) => {
                 <img className="add-images" alt="add" src='../images/add.svg'></img>
             </button>
 
+            <button className='add-button' type='submit' onClick={() => { changeListTask("") }}>
+                <img className="add-images" alt="add" src='../images/task.svg'></img>
+            </button>
 
-            <Dialog open={addOpen} onClose={addClose} aria-labelledby="form-dialog-title">
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        multiline
-                        margin="dense"
-                        id="name"
-                        label="Descrição"
-                        type="text"
-                        required
-                        fullWidth
-                        error={taskDescription === "" ? true : false}
-                        value={taskDescription}
-                        onChange={value => onChangetaskDescription(value.target.value)}
-                    />
+            <button className='add-button' type='submit' onClick={() => { changeListTask("Complete") }}>
+                <img className="add-images" alt="add" src='../images/complet.svg'></img>
+            </button>
 
-                    <TextField
-                        id="date"
-                        label="Data de conclusão"
-                        type="date"
-                        value={dataValue}
-                        required
-                        error={dataValue === "" ? true : false}
-                        onChange={value => changeValue(value.target.value)}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
+            <button className='add-button' type='submit' onClick={() => { changeListTask("Filed") }}>
+                <img className="add-images" alt="add" src='../images/filed.svg'></img>
+            </button>
 
-
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={addClose} color="primary">
-                        Cancel
-          </Button>
-                    <Button onClick={() => {
-
-                        addTask(data); addClose()
-                    }} color="primary">
-                        Salvar
-          </Button>
-                </DialogActions>
-            </Dialog>
+            
+            <DialogAdd 
+            addOpen={addOpen}
+            addTask={addTask}
+            data={data}
+            addClose={addClose}
+            taskDescription={taskDescription}
+            onChangetaskDescription={onChangetaskDescription}
+            dataValue={dataValue}
+            changeValue={changeValue}
+            
+            />
 
 
 

@@ -37,3 +37,31 @@
     background-color: green;
     border-color:green;
   }
+
+.task-button-delete{
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+    border-radius: 10em;
+    outline: 0;
+    border: 2px solid gray;
+}
+
+.task-button-delete:hover {
+    background-color: red;
+    border-color:red;
+  }
+
+  .task-button-edit{
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+    border-radius: 10em;
+    outline: 0;
+    border: 2px solid gray;
+}
+
+.task-button-edit:hover {
+    background-color: sienna;
+    border-color:sienna;
+  }
