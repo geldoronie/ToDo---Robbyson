@@ -12,6 +12,11 @@ class API extends Component {
 
     }
 
+    async findTask(description) {
+        return await requests.post('/findTask', { description: description })
+
+    }
+
     async postTask(data) {
         return await requests.post('/addtask', data)
     }
@@ -21,7 +26,6 @@ class API extends Component {
     }
 
     async deleteTask(id) {
-
         return await requests.delete('/deleteTask', { data: { _id: id }, })
     }
 

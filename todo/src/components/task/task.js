@@ -3,10 +3,12 @@ import '../task/task.css';
 import DialogDelete from '../dialog/dialogDelete'
 import { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import DialogEdit from '../dialog/dialogEdit';
 
 export default function Tasks({
     tasks,
     listTask,
+    addTask,
     completeTasks,
     archivedTasks,
     archiveTask,
@@ -14,6 +16,32 @@ export default function Tasks({
     deleteArquivedTask,
     deleteCompleteTask,
     deleteTask }) {
+
+
+    const [addOpen, setAddOpen] = useState(false);
+    const [taskDescriptionEdit, setTaskDescription] = useState("");
+    const [dataValue, setDataValue] = useState("");
+    const [idListItem, setidListItem] = useState("");
+    const [data, setData] = useState({});
+    const changeValue = (value) => {
+        setDataValue(value);
+    };
+
+    const onChangetaskDescription = (value) => {
+        setTaskDescription(value);
+
+    }
+
+    const addClickOpen = () => {
+        setAddOpen(true);
+    };
+
+    const addClose = () => {
+        setAddOpen(false);
+    };
+
+
+
 
     const [confirmeDelete, setconfirmeDelete] = useState(false);
 
@@ -32,17 +60,18 @@ export default function Tasks({
 
             completeTasks.map((completeTask, index) => {
                 return (
-                    <div className="task">
+                    <div className="task" key={index}>
                         <h3 className="task-h3">{completeTask.description}</h3>
                         <span className="task-status">
                             <p>{completeTask.duedate.substr(0, 10).split('-').reverse().join('/')}</p>
-                            <button className="task-button-complete" onClick={() => { archiveTask(completeTask._id) }} />
+                            <button className="task-button-complete" onClick={() => { archiveTask(completeTask) }} />
                             <button className="task-button-delete" onClick={() => {
+                                setidListItem(completeTasks[index]._id);
                                 openConfirmeDelete();
                             }} />
                             <DialogDelete open={confirmeDelete}
                                 closeConfirmeDelete={closeConfirmeDelete}
-                                id={completeTask._id}
+                                id={idListItem}
                                 deleteFunction={deleteCompleteTask} />
                         </span>
 
@@ -62,16 +91,17 @@ export default function Tasks({
 
             archivedTasks.map((archive, index) => {
                 return (
-                    <div className="task">
+                    <div className="task" key={index}>
                         <h3 className="task-h3">{archive.description}</h3>
                         <span className="task-status">
                             <p>{archive.duedate.substr(0, 10).split('-').reverse().join('/')}</p>
                             <button className="task-button-delete" onClick={() => {
+                                setidListItem(archivedTasks[index]._id);
                                 openConfirmeDelete();
                             }} />
                             <DialogDelete open={confirmeDelete}
                                 closeConfirmeDelete={closeConfirmeDelete}
-                                id={archive._id}
+                                id={idListItem}
                                 deleteFunction={deleteArquivedTask} />
                         </span>
 
@@ -89,17 +119,37 @@ export default function Tasks({
         return (
             tasks.map((task, index) => {
                 return (
-                    <div className="task">
+                    <div className="task" key={index}>
                         <h3 className="task-h3">{task.description}</h3>
                         <span className="task-status">
                             <p>{task.duedate.substr(0, 10).split('-').reverse().join('/')}</p>
-                            <button className="task-button-complete" onClick={() => { changeTaskToComplete(task._id) }} />
+                            <button className="task-button-complete" onClick={() => { changeTaskToComplete(task) }} />
                             <button className="task-button-delete" onClick={() => {
+                                setidListItem(tasks[index]._id);
                                 openConfirmeDelete();
                             }} />
+                            <button className="task-button-edit" onClick={() => {
+                                setTaskDescription(tasks[index].description);
+                                setData(tasks[index]);
+                                addClickOpen()
+
+                            }} />
+
+                            <DialogEdit
+                                addOpen={addOpen}
+                                addTask={addTask}
+                                data={data}
+                                addClose={addClose}
+                                taskDescriptionEdit={taskDescriptionEdit}
+                                onChangetaskDescription={onChangetaskDescription}
+                                dataValue={dataValue}
+                                changeValue={changeValue}
+
+                            />
+
                             <DialogDelete open={confirmeDelete}
                                 closeConfirmeDelete={closeConfirmeDelete}
-                                id={task._id}
+                                id={idListItem}
                                 deleteFunction={deleteTask} />
                         </span>
 

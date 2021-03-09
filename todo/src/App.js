@@ -1,4 +1,3 @@
-
 import './App.css';
 import './components/task/task';
 import Options from './components/options/options';
@@ -7,14 +6,12 @@ import React, { useState, useEffect } from 'react';
 import API from './services/requests';
 
 
-
 function App() {
+
   const api = new API();
 
   async function getData() {
     const response = await api.getAllTask();
-
-    console.log(response);
 
     if (response.data) {
       let data = response.data;
@@ -56,6 +53,7 @@ function App() {
     setTasks([...tasks, task])
     addTaskBD(task);
   }
+
   const changeCompleteTask = (completeTask) => {
     setcompleteTasks([...completeTasks, completeTask])
   }
@@ -87,6 +85,14 @@ function App() {
     deleteTaskBD(id);
   }
 
+  const updateTask = (data) => {
+    updateTaskBD(data);
+  }
+
+  const findTask = (description) => {
+    findTaskBD(description)
+  }
+
   async function deleteTaskBD(id) {
     await api.deleteTask(id);
     getData();
@@ -102,21 +108,27 @@ function App() {
     getData();
   }
 
+  async function findTaskBD(description) {
+    const response = await api.findTask(description);
+    setTasks(response.data);
+  }
 
   return (
     <div className="App">
 
       <header className="App-header">
 
-        <h2>
-          Tarefas
-        </h2>
+        <h2>Tarefas</h2>
 
-        <Options addTask={addTask} changeListTask={changeListTask} />
+        <Options addTask={addTask}
+          changeListTask={changeListTask}
+          findTask={findTask}
+          getData={getData} />
 
         <Tasks tasks={tasks}
           api={api}
           listTask={listTask}
+          addTask={updateTask}
           completeTasks={completeTasks}
           archivedTasks={archivedTask}
           archiveTask={archiveTask}

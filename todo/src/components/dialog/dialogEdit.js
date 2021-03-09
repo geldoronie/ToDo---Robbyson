@@ -6,15 +6,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import TextField from '@material-ui/core/TextField';
 import DialogContent from '@material-ui/core/DialogContent';
 
-const DialogAdd = ({
+const DialogEdit = ({
     addOpen,
     addTask,
     data,
     addClose,
-    taskDescription,
+    taskDescriptionEdit,
     onChangetaskDescription,
     dataValue,
     changeValue }) => {
+        
     return (
         <div>
 
@@ -29,8 +30,8 @@ const DialogAdd = ({
                         type="text"
                         required
                         fullWidth
-                        error={taskDescription === "" ? true : false}
-                        value={taskDescription}
+                        error={taskDescriptionEdit === "" ? true : false}
+                        value={taskDescriptionEdit}
                         onChange={value => onChangetaskDescription(value.target.value)}
                     />
 
@@ -54,8 +55,15 @@ const DialogAdd = ({
                         Cancel
           </Button>
                     <Button onClick={() => {
-                        if (dataValue !== "" && taskDescription !== "") {
-                            addTask(data);
+                        if (dataValue !== "" && taskDescriptionEdit !== "") {
+                            var taskEdited = {
+                                _id: data._id,
+                                description: taskDescriptionEdit,
+                                duedate: dataValue,
+                                done: data.done,
+                                hide: data.hide
+                            };
+                            addTask(taskEdited);
                             addClose();
                             onChangetaskDescription("");
                             changeValue("");
@@ -66,9 +74,9 @@ const DialogAdd = ({
           </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </div >
     )
 
 }
 
-export default DialogAdd;
+export default DialogEdit;

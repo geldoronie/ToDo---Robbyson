@@ -1,15 +1,12 @@
 import React from 'react';
-
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-
 const DialogDelete = ({ open, closeConfirmeDelete, id, deleteFunction }) => {
     
-
     return (
         <div>
 
